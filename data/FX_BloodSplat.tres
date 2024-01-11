@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Effect" load_steps=3 format=3 uid="uid://ddk8bqgx5ms6y"]
+
+[ext_resource type="PackedScene" uid="uid://bfyl2rsywrtj4" path="res://scenes/blood_splat.tscn" id="1_4ix2x"]
+[ext_resource type="Script" path="res://scripts/Effect.gd" id="2_fgo8p"]
+
+[resource]
+script = ExtResource("2_fgo8p")
+scene = ExtResource("1_4ix2x")

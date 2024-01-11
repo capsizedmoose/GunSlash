@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://j0rjx7pdqyxn"]
+
+[ext_resource type="Script" path="res://scripts/Slash.gd" id="1_hhq3a"]
+
+[sub_resource type="Curve" id="Curve_etkif"]
+_data = [Vector2(0, 0), 0.0, 5.60654, 0, 0, Vector2(0.376126, 1), 0.0, 0.0, 0, 0, Vector2(0.630631, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -6.03595, 0.0, 0, 0]
+point_count = 4
+
+[node name="Slash" type="Node2D"]
+script = ExtResource("1_hhq3a")
+width = 16.0
+
+[node name="Line2D" type="Line2D" parent="."]
+width_curve = SubResource("Curve_etkif")

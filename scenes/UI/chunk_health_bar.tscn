@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfyjhn0xb4541"]
+
+[ext_resource type="Script" path="res://scenes/chunk_health_bar.gd" id="1_3u6jv"]
+[ext_resource type="PackedScene" uid="uid://ba4m38xkjo513" path="res://scenes/UI/damage_bar.tscn" id="2_3hydr"]
+[ext_resource type="Shader" path="res://shaders/flash.gdshader" id="2_wum1t"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j4l2o"]
+shader = ExtResource("2_wum1t")
+shader_parameter/flash = false
+shader_parameter/color = Color(1, 1, 1, 1)
+
+[node name="ChunkHealthBar" type="Control" node_paths=PackedStringArray("hbox")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_3u6jv")
+hbox = NodePath("Flash/SubViewport/Container")
+chunk_scene = ExtResource("2_3hydr")
+
+[node name="Flash" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_j4l2o")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Flash"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(640, 360)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Container" type="HBoxContainer" parent="Flash/SubViewport"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 1

@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://o54semiphm6w"]
+
+[ext_resource type="PackedScene" uid="uid://cdbsye5a12bo3" path="res://scenes/character.tscn" id="1_4utm7"]
+[ext_resource type="Script" path="res://scripts/Cursor.gd" id="2_pttf4"]
+[ext_resource type="Texture2D" uid="uid://ceyhyx0k1i0ay" path="res://art/aim_square.png" id="3_0op21"]
+[ext_resource type="PackedScene" uid="uid://c5lws7f33xck1" path="res://scenes/enemy.tscn" id="4_tfk8a"]
+
+[node name="PlayArea" type="Node2D"]
+
+[node name="Character" parent="." node_paths=PackedStringArray("target") instance=ExtResource("1_4utm7")]
+position = Vector2(-152, -112)
+target = NodePath("../Cursor")
+
+[node name="Cursor" type="Node2D" parent="."]
+script = ExtResource("2_pttf4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Cursor"]
+modulate = Color(0.917647, 0.54902, 0.67451, 1)
+texture_filter = 1
+texture = ExtResource("3_0op21")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("4_tfk8a")]
+position = Vector2(-57, 114)
+
+[node name="CharacterBody2D2" parent="." instance=ExtResource("4_tfk8a")]
+position = Vector2(106, 71)
+
+[node name="CharacterBody2D3" parent="." instance=ExtResource("4_tfk8a")]
+position = Vector2(49, -85)
+
+[editable path="Character"]

@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=3 uid="uid://b2ae3k21njb6t"]
+
+[ext_resource type="Script" path="res://scripts/HealthBarWithShield.gd" id="1_hhrce"]
+[ext_resource type="PackedScene" uid="uid://cfyjhn0xb4541" path="res://scenes/UI/chunk_health_bar.tscn" id="1_mgt2g"]
+[ext_resource type="Shader" path="res://shaders/flash.gdshader" id="1_ptomi"]
+[ext_resource type="Script" path="res://scenes/UI/Flash.gd" id="3_l1qro"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_27kjo"]
+resource_local_to_scene = true
+shader = ExtResource("1_ptomi")
+shader_parameter/flash = false
+shader_parameter/color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bu2ev"]
+bg_color = Color(0.0627451, 0.0627451, 0.105882, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gs7vx"]
+bg_color = Color(0.87451, 0.631373, 0, 1)
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[node name="EnemyHealthBar" type="Control" node_paths=PackedStringArray("health_bar", "shield_bar", "flash")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_hhrce")
+health_bar = NodePath("Flash/SubViewport/VBoxContainer/ChunkHealthBar")
+shield_bar = NodePath("Flash/SubViewport/VBoxContainer/ProgressBar")
+flash = NodePath("Flash")
+
+[node name="Flash" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_27kjo")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+auto_translate = false
+localize_numeral_system = false
+stretch = true
+script = ExtResource("3_l1qro")
+
+[node name="SubViewport" type="SubViewport" parent="Flash"]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Flash/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 1
+
+[node name="ChunkHealthBar" parent="Flash/SubViewport/VBoxContainer" instance=ExtResource("1_mgt2g")]
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Flash/SubViewport/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/background = SubResource("StyleBoxFlat_bu2ev")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gs7vx")
+value = 35.79
+show_percentage = false

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Blade" load_steps=3 format=3 uid="uid://x4qn3k5dmrpd"]
+
+[ext_resource type="Script" path="res://scripts/WeaponSystem/Blade.gd" id="1_hx1i8"]
+[ext_resource type="Texture2D" uid="uid://baiwxwwbbf22p" path="res://art/Blade1.png" id="2_tkoou"]
+
+[resource]
+script = ExtResource("1_hx1i8")
+damage_type = 0
+base_attack = 1
+materialType = 1
+sprite = ExtResource("2_tkoou")
+durability_min = 0
+durability_max = 0

@@ -1,0 +1,181 @@
+[gd_scene load_steps=20 format=3 uid="uid://urhnncxsbf76"]
+
+[ext_resource type="Shader" path="res://shaders/rotate.gdshader" id="1_nwna8"]
+[ext_resource type="Texture2D" uid="uid://d2boj34hmps1i" path="res://art/big_slash.png" id="2_tsp5n"]
+[ext_resource type="Texture2D" uid="uid://cbxmyelmj4ktk" path="res://art/circle512.png" id="3_wdpux"]
+
+[sub_resource type="Animation" id="Animation_c0tgo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles2D2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_agyce"]
+resource_name = "default"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles2D2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_05o56"]
+_data = {
+"RESET": SubResource("Animation_c0tgo"),
+"default": SubResource("Animation_agyce")
+}
+
+[sub_resource type="Curve" id="Curve_vlwug"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.511392, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -4.11059, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_q2d81"]
+curve = SubResource("Curve_vlwug")
+
+[sub_resource type="Curve" id="Curve_52ah8"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_6wpqx"]
+max_value = 20.0
+_data = [Vector2(0, 0.419011), 0.0, 19.5295, 0, 0, Vector2(1, 20), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_b1utp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_eewfd"]
+curve_x = SubResource("Curve_52ah8")
+curve_y = SubResource("Curve_6wpqx")
+curve_z = SubResource("Curve_b1utp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k2wmw"]
+lifetime_randomness = 0.5
+particle_flag_align_y = true
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 600.0
+gravity = Vector3(0, 0, 0)
+damping_min = 150.0
+damping_max = 250.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_q2d81")
+scale_over_velocity_max = 600.0
+scale_over_velocity_curve = SubResource("CurveXYZTexture_eewfd")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_06b7o"]
+shader = ExtResource("1_nwna8")
+shader_parameter/speed = 3.0
+shader_parameter/tex = ExtResource("2_tsp5n")
+
+[sub_resource type="Curve" id="Curve_lx5u6"]
+_data = [Vector2(0, 0), 0.0, 3.15545, 0, 0, Vector2(0.850633, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_ymlap"]
+_data = [Vector2(0, 0.230844), 0.0, 0.0, 0, 0, Vector2(0.653165, 0.249758), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.65723, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_uhwgu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_tw4ps"]
+curve_x = SubResource("Curve_lx5u6")
+curve_y = SubResource("Curve_ymlap")
+curve_z = SubResource("Curve_uhwgu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y8t0t"]
+particle_flag_disable_z = true
+angle_max = 360.0
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.15
+scale_max = 0.35
+scale_curve = SubResource("CurveXYZTexture_tw4ps")
+
+[node name="BloodExplosion" type="Node2D"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_05o56")
+}
+autoplay = "default"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+modulate = Color(0.701961, 0.203922, 0.239216, 1)
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_k2wmw")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
+modulate = Color(0.701961, 0.203922, 0.239216, 1)
+texture_filter = 1
+texture_repeat = 1
+material = SubResource("ShaderMaterial_06b7o")
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_y8t0t")
+texture = ExtResource("3_wdpux")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.49

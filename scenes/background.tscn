@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://ctdlk5nvpapy"]
+
+[ext_resource type="Shader" path="res://shaders/background.gdshader" id="1_4xn1y"]
+[ext_resource type="Texture2D" uid="uid://cojn252f86xnc" path="res://art/background.png" id="2_im5i7"]
+[ext_resource type="Script" path="res://scenes/PlayAreaVisual.gd" id="3_deph0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s5oys"]
+shader = ExtResource("1_4xn1y")
+shader_parameter/scroll_speed = Vector2(1, 0)
+shader_parameter/scale = 3.0
+shader_parameter/color = Color(0.12549, 0.12549, 0.192157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h5heo"]
+bg_color = Color(0.12549, 0.12549, 0.192157, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.109804, 0.109804, 0.164706, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+anti_aliasing = false
+
+[node name="Background" type="CanvasLayer"]
+layer = -10
+
+[node name="ColorRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_s5oys")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_im5i7")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="PlayArea" type="Panel" parent="."]
+theme_override_styles/panel = SubResource("StyleBoxFlat_h5heo")
+script = ExtResource("3_deph0")

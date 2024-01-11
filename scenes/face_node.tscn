@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckt1t7867nk86"]
+
+[ext_resource type="Script" path="res://scripts/CharacterSystem/FaceNode.gd" id="1_jg7gg"]
+
+[node name="FaceNode" type="Node2D"]
+script = ExtResource("1_jg7gg")
+
+[node name="HeadShape" type="Sprite2D" parent="."]
+
+[node name="EyeL" type="AnimatedSprite2D" parent="."]
+
+[node name="EyeR" type="AnimatedSprite2D" parent="."]
+
+[node name="Nose" type="AnimatedSprite2D" parent="."]
+
+[node name="Mouth" type="AnimatedSprite2D" parent="."]

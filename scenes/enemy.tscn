@@ -1,0 +1,139 @@
+[gd_scene load_steps=22 format=3 uid="uid://c5lws7f33xck1"]
+
+[ext_resource type="Texture2D" uid="uid://hcmfx4xrp34p" path="res://art/circle32.png" id="1_mmiju"]
+[ext_resource type="SpriteFrames" uid="uid://blq0agg3lc01y" path="res://art/face_frames.tres" id="2_2a1rq"]
+[ext_resource type="Script" path="res://scripts/FaceSolver.gd" id="3_ck4nf"]
+[ext_resource type="Script" path="res://scripts/components/HitBox.gd" id="5_7aj0c"]
+[ext_resource type="Script" path="res://scripts/Shaker.gd" id="6_ngruw"]
+[ext_resource type="PackedScene" uid="uid://b2ae3k21njb6t" path="res://scenes/UI/enemy_health_bar.tscn" id="6_yuntr"]
+[ext_resource type="Script" path="res://scripts/ChunkHealthSystem.gd" id="7_tcf7n"]
+[ext_resource type="AudioStream" uid="uid://dr36qgi5y5p4q" path="res://audio/shield_hit_1.wav" id="8_pmlqy"]
+[ext_resource type="AudioStream" uid="uid://d3pjg0mde68r6" path="res://audio/shield_hit_2.wav" id="9_0o41n"]
+[ext_resource type="AudioStream" uid="uid://dc80ie2mdanq4" path="res://audio/shield_clash.wav" id="10_crs71"]
+[ext_resource type="AudioStream" uid="uid://cy2oye1aylc3t" path="res://audio/blood_1.wav" id="10_of4fh"]
+[ext_resource type="AudioStream" uid="uid://c8qiy4vcqgf3r" path="res://audio/ShieldBreak.wav" id="10_vma46"]
+[ext_resource type="AudioStream" uid="uid://c27mxxsqpjell" path="res://audio/blood_2.wav" id="11_vigik"]
+[ext_resource type="AudioStream" uid="uid://bnun7nwr8rc6y" path="res://audio/ChunkDestroyed.wav" id="13_vj1v7"]
+[ext_resource type="Script" path="res://scripts/EffectSpawner.gd" id="14_knm7c"]
+[ext_resource type="Resource" uid="uid://ck38rikqtq3ap" path="res://data/FX_BloodExplosion.tres" id="15_dpo4l"]
+[ext_resource type="Resource" uid="uid://camawa74mikja" path="res://data/FX_ShieldClash.tres" id="16_1lo2w"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8unwv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_amjrk"]
+radius = 16.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qaloc"]
+random_pitch = 1.2
+streams_count = 2
+stream_0/stream = ExtResource("8_pmlqy")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("9_0o41n")
+stream_1/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_nhv3r"]
+random_pitch = 1.2
+streams_count = 2
+stream_0/stream = ExtResource("10_of4fh")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("11_vigik")
+stream_1/weight = 1.0
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8unwv")
+
+[node name="Art" type="Node2D" parent="."]
+
+[node name="Shaker" type="Node2D" parent="Art"]
+script = ExtResource("6_ngruw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Art/Shaker"]
+modulate = Color(0.988235, 0.552941, 0.545098, 1)
+texture = ExtResource("1_mmiju")
+
+[node name="Face" type="AnimatedSprite2D" parent="Art/Shaker"]
+self_modulate = Color(1, 0, 0, 1)
+sprite_frames = ExtResource("2_2a1rq")
+script = ExtResource("3_ck4nf")
+
+[node name="HitBox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+script = ExtResource("5_7aj0c")
+health_component = NodePath("../ChunkHealthSystem")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_amjrk")
+
+[node name="ChunkHealthSystem" type="Node" parent="."]
+script = ExtResource("7_tcf7n")
+shield_health = 25
+shield_recharge_rate = 25.0
+shield_break_duration = 4.0
+chunks = 3
+chunk_health = 20
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(0, -34)
+
+[node name="Shaker" type="Node2D" parent="Node2D"]
+script = ExtResource("6_ngruw")
+
+[node name="EnemyHealthBar" parent="Node2D/Shaker" node_paths=PackedStringArray("health_system") instance=ExtResource("6_yuntr")]
+texture_filter = 1
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -24.0
+offset_top = -6.0
+offset_right = 24.0
+offset_bottom = 6.0
+grow_horizontal = 1
+grow_vertical = 1
+health_system = NodePath("../../../ChunkHealthSystem")
+
+[node name="ShieldCling" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_qaloc")
+volume_db = -7.0
+max_polyphony = 2
+
+[node name="ShieldClash" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_crs71")
+volume_db = -5.0
+max_polyphony = 2
+
+[node name="Blood" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_nhv3r")
+volume_db = -5.0
+max_polyphony = 2
+
+[node name="ShieldBreak" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_vma46")
+volume_db = 8.87
+max_polyphony = 2
+
+[node name="ChunkDestroyed" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_vj1v7")
+volume_db = 8.87
+max_polyphony = 2
+
+[node name="BloodEffect" type="Node2D" parent="."]
+script = ExtResource("14_knm7c")
+effect = ExtResource("15_dpo4l")
+
+[node name="ClashEffect" type="Node2D" parent="."]
+script = ExtResource("14_knm7c")
+effect = ExtResource("16_1lo2w")
+
+[connection signal="chunk_destroyed" from="ChunkHealthSystem" to="BloodEffect" method="play_effect_on_me"]
+[connection signal="chunk_destroyed" from="ChunkHealthSystem" to="Art/Shaker" method="shake" binds= [5.0, 1.0]]
+[connection signal="chunk_destroyed" from="ChunkHealthSystem" to="Node2D/Shaker" method="shake" binds= [5.0, 0.5]]
+[connection signal="chunk_destroyed" from="ChunkHealthSystem" to="ChunkDestroyed" method="play" binds= [0.0]]
+[connection signal="health_damaged" from="ChunkHealthSystem" to="Art/Shaker/Face" method="set_state_to_hurt"]
+[connection signal="health_damaged" from="ChunkHealthSystem" to="Blood" method="play" binds= [0.0]]
+[connection signal="health_depleted" from="ChunkHealthSystem" to="Art/Shaker/Face" method="set_state_to_dead"]
+[connection signal="shield_broken" from="ChunkHealthSystem" to="Node2D/Shaker" method="shake" binds= [5.0, 0.5]]
+[connection signal="shield_broken" from="ChunkHealthSystem" to="ShieldBreak" method="play" binds= [0.0]]
+[connection signal="shield_clash" from="ChunkHealthSystem" to="ClashEffect" method="play_effect_on_me"]
+[connection signal="shield_clash" from="ChunkHealthSystem" to="ShieldClash" method="play" binds= [0.0]]
+[connection signal="shield_damaged" from="ChunkHealthSystem" to="ShieldCling" method="play" binds= [0.0]]

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="WeaponPart" load_steps=2 format=3 uid="uid://clkanwy4e5j71"]
+
+[ext_resource type="Script" path="res://scripts/WeaponSystem/WeaponPart.gd" id="1_x5dt6"]
+
+[resource]
+script = ExtResource("1_x5dt6")
+materialType = 0
+durability_min = 0
+durability_max = 0

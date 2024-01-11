@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c0h3lv8bvmqu3"
+path="res://.godot/imported/Lasers, Gun, Heavy Laser Beam SND44888.wav-166c2ffb7912229f862adc1cfb31c443.sample"
+
+[deps]
+
+source_file="res://art/Lasers, Gun, Heavy Laser Beam SND44888.wav"
+dest_files=["res://.godot/imported/Lasers, Gun, Heavy Laser Beam SND44888.wav-166c2ffb7912229f862adc1cfb31c443.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

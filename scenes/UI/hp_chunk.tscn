@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://0vhi2dy2bvqr"]
+
+[ext_resource type="StyleBox" uid="uid://c46wl8ioyayqa" path="res://scenes/UI/hp_chunk_background_style.tres" id="1_dvc6n"]
+[ext_resource type="StyleBox" uid="uid://mxa3nsxn2t2d" path="res://scenes/UI/hp_chunk_fill_delay_style.tres" id="2_0od7y"]
+
+[node name="Chunk" type="ProgressBar"]
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = ExtResource("1_dvc6n")
+theme_override_styles/fill = ExtResource("2_0od7y")
+value = 100.0
+show_percentage = false
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="CenterContainer"]
+layout_mode = 2

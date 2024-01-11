@@ -1,0 +1,223 @@
+[gd_scene load_steps=34 format=3 uid="uid://cdbsye5a12bo3"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_fjprj"]
+[ext_resource type="SpriteFrames" uid="uid://blq0agg3lc01y" path="res://art/face_frames.tres" id="2_7ueu5"]
+[ext_resource type="SpriteFrames" uid="uid://bwvxgf4tkkerr" path="res://Ball.tres" id="2_sfxwx"]
+[ext_resource type="Script" path="res://scripts/statemachine/Statemachine.gd" id="3_3m8ax"]
+[ext_resource type="Texture2D" uid="uid://13epjx6q4as" path="res://art/shine.png" id="4_du215"]
+[ext_resource type="Script" path="res://scripts/statemachine/player/MoveToTargetState.gd" id="4_s0pxb"]
+[ext_resource type="Texture2D" uid="uid://bjx5vl411r2m4" path="res://art/gun.png" id="5_aicrl"]
+[ext_resource type="Script" path="res://scripts/statemachine/player/ChargeState.gd" id="5_jlebu"]
+[ext_resource type="Script" path="res://scripts/statemachine/player/SlashState.gd" id="7_q2loy"]
+[ext_resource type="Script" path="res://scripts/BulletSpawner.gd" id="9_gpt4q"]
+[ext_resource type="Texture2D" uid="uid://cweog2uhihqsl" path="res://art/ball.png" id="9_u8ppi"]
+[ext_resource type="AudioStream" uid="uid://dxveycie617kj" path="res://art/Guns, Automatic, Machine Gun, Auto, Heavy, Shot, Multiple SND6145.wav" id="10_465ie"]
+[ext_resource type="Script" path="res://scripts/TimescaledParticles.gd" id="11_h2y1x"]
+[ext_resource type="AudioStream" uid="uid://c87waj8p5dlwv" path="res://audio/EyeShine.wav" id="13_8l823"]
+[ext_resource type="AudioStream" uid="uid://bdsmmcf70no1f" path="res://audio/slice.wav" id="14_nhngy"]
+[ext_resource type="Script" path="res://scripts/ChunkHealthSystem.gd" id="14_vev0f"]
+[ext_resource type="Script" path="res://scripts/components/HitBox.gd" id="17_qks0b"]
+
+[sub_resource type="Curve" id="Curve_x4uqp"]
+max_value = 3.0
+_data = [Vector2(0, 0.123666), 0.0, 0.0, 0, 0, Vector2(0.762025, 3), 9.80556, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_su7k3"]
+max_value = 3.0
+_data = [Vector2(0, 0), 0.0, 12.2665, 0, 0, Vector2(0.506329, 3), 0.0, 0.0, 0, 0, Vector2(1, 0), -10.3443, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_w2y84"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_aw7le"]
+width = 32
+curve_x = SubResource("Curve_x4uqp")
+curve_y = SubResource("Curve_su7k3")
+curve_z = SubResource("Curve_w2y84")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0lp4o"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveXYZTexture_aw7le")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xsc07"]
+radius = 8.0
+
+[sub_resource type="Gradient" id="Gradient_lghk8"]
+offsets = PackedFloat32Array(0.354223, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_c1h1m"]
+gradient = SubResource("Gradient_lghk8")
+
+[sub_resource type="Curve" id="Curve_17xv6"]
+max_value = 100.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1e-05, 33.1717), 0.0, 0.0, 0, 0, Vector2(0.541772, 96.8477), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_jw7ld"]
+curve = SubResource("Curve_17xv6")
+
+[sub_resource type="Curve" id="Curve_6ljrs"]
+_data = [Vector2(0, 0.268671), 0.0, 0.0, 0, 0, Vector2(0.24557, 0.312803), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.143672, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_hnnjn"]
+max_value = 3.0
+_data = [Vector2(0, 0), 0.0, 14.0042, 0, 0, Vector2(0.293671, 2.98109), 0.0, 0.0, 0, 0, Vector2(0.491139, 3), -0.213454, -0.213454, 0, 0, Vector2(1, 0.00387979), -12.8905, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_npkgu"]
+width = 32
+curve_x = SubResource("Curve_6ljrs")
+curve_y = SubResource("Curve_hnnjn")
+curve_z = SubResource("Curve_w2y84")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_repn0"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+spread = 60.0
+initial_velocity_min = 600.0
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 0, 0)
+damping_min = 75.95
+damping_max = 100.0
+damping_curve = SubResource("CurveTexture_jw7ld")
+scale_min = 0.25
+scale_max = 0.25
+scale_curve = SubResource("CurveXYZTexture_npkgu")
+color_ramp = SubResource("GradientTexture1D_c1h1m")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fdy6n"]
+atlas = ExtResource("9_u8ppi")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bl43f"]
+radius = 8.0
+
+[node name="Character" type="CharacterBody2D" node_paths=PackedStringArray("statemachine", "health")]
+script = ExtResource("1_fjprj")
+statemachine = NodePath("Statemachine")
+health = NodePath("ChunkHealthSystem")
+
+[node name="ART" type="Node2D" parent="."]
+
+[node name="Ball" type="AnimatedSprite2D" parent="ART"]
+texture_filter = 1
+sprite_frames = ExtResource("2_sfxwx")
+autoplay = "default"
+frame_progress = 0.324829
+
+[node name="Face" type="AnimatedSprite2D" parent="ART"]
+texture_filter = 1
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("2_7ueu5")
+
+[node name="EyeShine" type="GPUParticles2D" parent="ART/Face"]
+process_mode = 3
+position = Vector2(-11, -1)
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_0lp4o")
+texture = ExtResource("4_du215")
+lifetime = 0.2
+one_shot = true
+fixed_fps = 60
+interpolate = false
+local_coords = true
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xsc07")
+
+[node name="Weapon" type="Node2D" parent="."]
+
+[node name="WeaponSprite" type="Sprite2D" parent="Weapon"]
+visible = false
+texture_filter = 1
+position = Vector2(17, 0)
+texture = ExtResource("5_aicrl")
+
+[node name="FirePoint" type="Node2D" parent="Weapon"]
+position = Vector2(48, 0)
+
+[node name="Muzzle" type="GPUParticles2D" parent="Weapon/FirePoint"]
+position = Vector2(-16, 0)
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_repn0")
+texture = SubResource("AtlasTexture_fdy6n")
+lifetime = 0.2
+one_shot = true
+fixed_fps = 60
+interpolate = false
+script = ExtResource("11_h2y1x")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Weapon/FirePoint"]
+stream = ExtResource("10_465ie")
+volume_db = -5.0
+max_polyphony = 3
+
+[node name="BulletSpawner" type="Node2D" parent="."]
+script = ExtResource("9_gpt4q")
+
+[node name="Statemachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("3_3m8ax")
+starting_state = NodePath("MoveToTargetState")
+
+[node name="MoveToTargetState" type="Node" parent="Statemachine" node_paths=PackedStringArray("charge_state")]
+script = ExtResource("4_s0pxb")
+max_speed = 1000.0
+charge_state = NodePath("../ChargeState")
+
+[node name="ChargeState" type="Node" parent="Statemachine" node_paths=PackedStringArray("next_state", "weapon", "fire_point", "bullet_spawner")]
+script = ExtResource("5_jlebu")
+next_state = NodePath("../SlashState")
+weapon = NodePath("../../Weapon")
+fire_point = NodePath("../../Weapon/FirePoint")
+bullet_spawner = NodePath("../../BulletSpawner")
+
+[node name="SlashState" type="Node" parent="Statemachine" node_paths=PackedStringArray("next_state")]
+script = ExtResource("7_q2loy")
+next_state = NodePath("../MoveToTargetState")
+
+[node name="ChunkHealthSystem" type="Node" parent="."]
+script = ExtResource("14_vev0f")
+shield_health = 5
+shield_recharge_rate = 1.0
+shield_recharge_delay = 5.0
+chunks = 5
+chunk_health = 1
+
+[node name="HitBox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+monitoring = false
+script = ExtResource("17_qks0b")
+health_component = NodePath("../ChunkHealthSystem")
+team = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_bl43f")
+debug_color = Color(1, 0.14902, 0.345098, 0.419608)
+
+[node name="Slice" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(32, 0)
+stream = ExtResource("14_nhngy")
+volume_db = -0.845
+pitch_scale = 1.7
+max_polyphony = 3
+
+[node name="EyeShine" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(32, 0)
+stream = ExtResource("13_8l823")
+max_polyphony = 3
+
+[connection signal="on_bullet_spawned" from="BulletSpawner" to="Weapon/FirePoint/Muzzle" method="set_emitting" binds= [true]]
+[connection signal="on_bullet_spawned" from="BulletSpawner" to="Weapon/FirePoint/AudioStreamPlayer2D" method="play" binds= [0.0]]
+[connection signal="on_enter" from="Statemachine/ChargeState" to="Weapon/WeaponSprite" method="set_visible" binds= [true]]
+[connection signal="on_exit" from="Statemachine/ChargeState" to="Weapon/WeaponSprite" method="set_visible" binds= [false]]
+[connection signal="on_enter" from="Statemachine/SlashState" to="ART/Face/EyeShine" method="set_emitting" binds= [true]]
+[connection signal="on_enter" from="Statemachine/SlashState" to="Weapon/FirePoint/Muzzle" method="set_emitting" binds= [false]]
+[connection signal="on_enter" from="Statemachine/SlashState" to="EyeShine" method="play" binds= [0.0]]
+[connection signal="on_slash" from="Statemachine/SlashState" to="Slice" method="play" binds= [0.0]]

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Effect" load_steps=3 format=3 uid="uid://camawa74mikja"]
+
+[ext_resource type="Script" path="res://scripts/Effect.gd" id="1_xb83x"]
+[ext_resource type="PackedScene" uid="uid://cqlhwhgwigeoi" path="res://scenes/shield_clash.tscn" id="1_xr68y"]
+
+[resource]
+script = ExtResource("1_xb83x")
+scene = ExtResource("1_xr68y")

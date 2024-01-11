@@ -1,0 +1,67 @@
+[gd_scene load_steps=15 format=3 uid="uid://di3n6qntuf8rx"]
+
+[ext_resource type="Texture2D" uid="uid://baiwxwwbbf22p" path="res://art/Blade1.png" id="1_6fhcr"]
+[ext_resource type="Script" path="res://scripts/WeaponSystem/WeaponVisual.gd" id="1_exte7"]
+[ext_resource type="Resource" uid="uid://cx5ur4xnohe5h" path="res://data/grips/grip3.tres" id="2_q3n3p"]
+[ext_resource type="Resource" uid="uid://br3q6837s7ett" path="res://data/blades/blade1.tres" id="3_g206f"]
+[ext_resource type="Script" path="res://scripts/WeaponSystem/Weapon.gd" id="4_ygu0r"]
+[ext_resource type="Script" path="res://scripts/WeaponSystem/StatModifier.gd" id="5_7e7wy"]
+[ext_resource type="Texture2D" uid="uid://dlv886ksdalw4" path="res://art/Grip3.png" id="6_khn64"]
+
+[sub_resource type="Resource" id="Resource_0cefg"]
+script = ExtResource("5_7e7wy")
+stat = 0
+value = 5
+
+[sub_resource type="Resource" id="Resource_ui4qc"]
+script = ExtResource("5_7e7wy")
+stat = 0
+value = 5
+
+[sub_resource type="Resource" id="Resource_g3lt0"]
+script = ExtResource("5_7e7wy")
+stat = 0
+value = 5
+
+[sub_resource type="Resource" id="Resource_14lnq"]
+script = ExtResource("5_7e7wy")
+stat = 1
+value = 5
+
+[sub_resource type="Resource" id="Resource_c0037"]
+script = ExtResource("5_7e7wy")
+stat = 1
+value = 3
+
+[sub_resource type="Resource" id="Resource_a3nhc"]
+script = ExtResource("4_ygu0r")
+stat_modifiers = Array[ExtResource("5_7e7wy")]([SubResource("Resource_0cefg"), SubResource("Resource_ui4qc"), SubResource("Resource_g3lt0"), SubResource("Resource_14lnq"), SubResource("Resource_c0037")])
+attack_value = 9
+healt_value = 17
+
+[sub_resource type="Resource" id="Resource_f8la8"]
+script = ExtResource("5_7e7wy")
+stat = 1
+value = 3
+
+[node name="TestWeapon" type="Node2D" node_paths=PackedStringArray("grip_sprite", "blade_sprite")]
+position = Vector2(-2, 0)
+script = ExtResource("1_exte7")
+grip = ExtResource("2_q3n3p")
+blade = ExtResource("3_g206f")
+weapon = SubResource("Resource_a3nhc")
+grip_sprite = NodePath("Grip")
+blade_sprite = NodePath("Blade")
+modifier = SubResource("Resource_f8la8")
+
+[node name="Blade" type="Sprite2D" parent="."]
+self_modulate = Color(0.760784, 0.745098, 0.909804, 1)
+texture_filter = 1
+texture = ExtResource("1_6fhcr")
+offset = Vector2(0, -32)
+
+[node name="Grip" type="Sprite2D" parent="."]
+self_modulate = Color(0.776471, 0.776471, 0.52549, 1)
+texture_filter = 1
+texture = ExtResource("6_khn64")
+offset = Vector2(0, 32)

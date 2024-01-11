@@ -1,0 +1,41 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://blq0agg3lc01y"]
+
+[ext_resource type="Texture2D" uid="uid://bnr4cki6oa3x5" path="res://art/face4.png" id="1_1f7kq"]
+[ext_resource type="Texture2D" uid="uid://bxvmw06lw6pet" path="res://art/face1.png" id="2_ku1y8"]
+[ext_resource type="Texture2D" uid="uid://by663md6bjavw" path="res://art/face3.png" id="3_xkxkt"]
+[ext_resource type="Texture2D" uid="uid://bbcuwuwdj2h67" path="res://art/face2.png" id="4_67b21"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1f7kq")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ku1y8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_xkxkt")
+}],
+"loop": true,
+"name": &"happy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_67b21")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 5.0
+}]

@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://ba4m38xkjo513"]
+
+[ext_resource type="Script" path="res://scripts/DamageBar.gd" id="1_4s1cu"]
+[ext_resource type="PackedScene" uid="uid://0vhi2dy2bvqr" path="res://scenes/UI/hp_chunk.tscn" id="2_vpc4v"]
+[ext_resource type="StyleBox" uid="uid://bv5qeudvt326q" path="res://scenes/UI/hp_chunk_fill_style.tres" id="3_82a03"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4akbs"]
+
+[node name="DamageBar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -608.0
+offset_bottom = -352.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_4s1cu")
+
+[node name="Delay" parent="." instance=ExtResource("2_vpc4v")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Value" parent="." instance=ExtResource("2_vpc4v")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_4akbs")
+theme_override_styles/fill = ExtResource("3_82a03")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="CenterContainer"]
+layout_mode = 2

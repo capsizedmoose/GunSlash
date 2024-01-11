@@ -1,0 +1,262 @@
+[gd_scene load_steps=13 format=3 uid="uid://mfot3anubaqi"]
+
+[ext_resource type="PackedScene" uid="uid://bo1t1hvq0gcby" path="res://scenes/transition_manager.tscn" id="1_0ifg2"]
+[ext_resource type="Texture2D" uid="uid://xfdgjficicju" path="res://art/BigCircle.png" id="2_ignso"]
+[ext_resource type="Script" path="res://scripts/QuitGame.gd" id="2_khssk"]
+[ext_resource type="FontFile" uid="uid://b8wodd68xc0yx" path="res://fonts/Awe Mono Gold.otf" id="3_oidex"]
+[ext_resource type="AudioStream" uid="uid://6lactqdr6eij" path="res://audio/Fart.wav" id="4_isnhe"]
+[ext_resource type="Script" path="res://scripts/HealthBarWithShield.gd" id="6_arsv2"]
+[ext_resource type="Shader" path="res://shaders/flash.gdshader" id="7_kj2fv"]
+[ext_resource type="Script" path="res://scenes/UI/Flash.gd" id="8_vfjlh"]
+[ext_resource type="Script" path="res://scenes/chunk_health_bar.gd" id="9_vmvr4"]
+[ext_resource type="PackedScene" uid="uid://xt68nx8otv1a" path="res://scenes/UI/damage_bar_vertical.tscn" id="10_lb0mx"]
+[ext_resource type="Texture2D" uid="uid://pyh7o560tmhi" path="res://art/circle16.png" id="11_2vyun"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_njonx"]
+resource_local_to_scene = true
+shader = ExtResource("7_kj2fv")
+shader_parameter/flash = false
+shader_parameter/color = Color(1, 1, 1, 1)
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="FullScreen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TransitionManager" parent="FullScreen" instance=ExtResource("1_0ifg2")]
+layout_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="FullScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="QuitGame" type="Control" parent="FullScreen/CenterContainer" node_paths=PackedStringArray("fart")]
+layout_mode = 2
+script = ExtResource("2_khssk")
+fart = NodePath("Control/AudioStreamPlayer")
+
+[node name="Control" type="Control" parent="FullScreen/CenterContainer/QuitGame"]
+visible = false
+anchors_preset = 0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="FullScreen/CenterContainer/QuitGame/Control"]
+layout_mode = 2
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+max_value = 1.0
+step = 0.001
+value = 1.0
+fill_mode = 4
+texture_progress = ExtResource("2_ignso")
+tint_progress = Color(1, 0.396078, 0.329412, 1)
+
+[node name="Label" type="RichTextLabel" parent="FullScreen/CenterContainer/QuitGame/Control/TextureProgressBar"]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -16.0
+offset_right = 32.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 9
+theme_override_fonts/normal_font = ExtResource("3_oidex")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center][shake rate=25 level=25]QUIT"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="FullScreen/CenterContainer/QuitGame/Control"]
+stream = ExtResource("4_isnhe")
+bus = &"SFX"
+
+[node name="MarginContainer" type="MarginContainer" parent="FullScreen"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 64.0
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PlayerHealthBar" type="Control" parent="FullScreen/MarginContainer" node_paths=PackedStringArray("health_bar", "shield_bar", "flash")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("6_arsv2")
+health_bar = NodePath("Flash/SubViewport/HBoxContainer/ChunkHealthBar")
+shield_bar = NodePath("Flash/SubViewport/HBoxContainer/TextureProgressBar")
+flash = NodePath("Flash")
+
+[node name="Flash" type="SubViewportContainer" parent="FullScreen/MarginContainer/PlayerHealthBar"]
+material = SubResource("ShaderMaterial_njonx")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+auto_translate = false
+localize_numeral_system = false
+stretch = true
+script = ExtResource("8_vfjlh")
+
+[node name="SubViewport" type="SubViewport" parent="FullScreen/MarginContainer/PlayerHealthBar/Flash"]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(48, 344)
+render_target_update_mode = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FullScreen/MarginContainer/PlayerHealthBar/Flash/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="ChunkHealthBar" type="Control" parent="FullScreen/MarginContainer/PlayerHealthBar/Flash/SubViewport/HBoxContainer" node_paths=PackedStringArray("hbox")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("9_vmvr4")
+hbox = NodePath("VBoxContainer")
+chunk_scene = ExtResource("10_lb0mx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FullScreen/MarginContainer/PlayerHealthBar/Flash/SubViewport/HBoxContainer/ChunkHealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="FullScreen/MarginContainer/PlayerHealthBar/Flash/SubViewport/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+fill_mode = 3
+nine_patch_stretch = true
+stretch_margin_left = 8
+stretch_margin_top = 8
+stretch_margin_right = 8
+stretch_margin_bottom = 8
+texture_under = ExtResource("11_2vyun")
+texture_progress = ExtResource("11_2vyun")
+tint_under = Color(0.109804, 0.109804, 0.109804, 1)
+tint_progress = Color(0.87451, 0.631373, 0, 1)
+
+[node name="MarginContainer2" type="MarginContainer" parent="FullScreen"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="BossHealthBar" type="Control" parent="FullScreen/MarginContainer2" node_paths=PackedStringArray("health_bar", "shield_bar", "flash")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("6_arsv2")
+health_bar = NodePath("../../MarginContainer/PlayerHealthBar/Flash/SubViewport/HBoxContainer/ChunkHealthBar")
+shield_bar = NodePath("../../MarginContainer/PlayerHealthBar/Flash/SubViewport/HBoxContainer/TextureProgressBar")
+flash = NodePath("../../MarginContainer/PlayerHealthBar/Flash")
+
+[node name="Flash" type="SubViewportContainer" parent="FullScreen/MarginContainer2/BossHealthBar"]
+material = SubResource("ShaderMaterial_njonx")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+auto_translate = false
+localize_numeral_system = false
+stretch = true
+script = ExtResource("8_vfjlh")
+
+[node name="SubViewport" type="SubViewport" parent="FullScreen/MarginContainer2/BossHealthBar/Flash"]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(48, 344)
+render_target_update_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FullScreen/MarginContainer2/BossHealthBar/Flash/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="FullScreen/MarginContainer2/BossHealthBar/Flash/SubViewport/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+fill_mode = 3
+nine_patch_stretch = true
+stretch_margin_left = 8
+stretch_margin_top = 8
+stretch_margin_right = 8
+stretch_margin_bottom = 8
+texture_under = ExtResource("11_2vyun")
+texture_progress = ExtResource("11_2vyun")
+tint_under = Color(0.109804, 0.109804, 0.109804, 1)
+tint_progress = Color(0.87451, 0.631373, 0, 1)
+
+[node name="ChunkHealthBar" type="Control" parent="FullScreen/MarginContainer2/BossHealthBar/Flash/SubViewport/HBoxContainer" node_paths=PackedStringArray("hbox")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("9_vmvr4")
+hbox = NodePath("../../../../../../MarginContainer/PlayerHealthBar/Flash/SubViewport/HBoxContainer/ChunkHealthBar/VBoxContainer")
+chunk_scene = ExtResource("10_lb0mx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FullScreen/MarginContainer2/BossHealthBar/Flash/SubViewport/HBoxContainer/ChunkHealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[connection signal="on_active_changed" from="FullScreen/CenterContainer/QuitGame" to="FullScreen/CenterContainer/QuitGame/Control" method="set_visible"]
+[connection signal="on_progress_updated" from="FullScreen/CenterContainer/QuitGame" to="FullScreen/CenterContainer/QuitGame/Control/TextureProgressBar" method="set_value"]

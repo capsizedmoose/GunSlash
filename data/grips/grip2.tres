@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Grip" load_steps=3 format=3 uid="uid://c4if8pytucs0f"]
+
+[ext_resource type="Script" path="res://scripts/WeaponSystem/Grip.gd" id="1_bqyus"]
+[ext_resource type="Texture2D" uid="uid://bidkuq3ci5eae" path="res://art/Grip2.png" id="2_be5sf"]
+
+[resource]
+script = ExtResource("1_bqyus")
+gem_slot_type = 0
+base_health = 1
+materialType = 0
+sprite = ExtResource("2_be5sf")
+durability_min = 0
+durability_max = 0

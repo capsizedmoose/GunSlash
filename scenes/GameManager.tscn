@@ -1,0 +1,94 @@
+[gd_scene load_steps=13 format=3 uid="uid://bb1lovqo2nb1h"]
+
+[ext_resource type="Script" path="res://scripts/managers/GameManager.gd" id="1_2syvq"]
+[ext_resource type="Shader" path="res://shaders/Shadow.gdshader" id="2_gdnth"]
+[ext_resource type="Shader" path="res://shaders/Outline.gdshader" id="3_p13qx"]
+[ext_resource type="PackedScene" uid="uid://ctdlk5nvpapy" path="res://scenes/background.tscn" id="4_kof1a"]
+[ext_resource type="PackedScene" uid="uid://b17xf8uuamvuf" path="res://scenes/camera.tscn" id="5_lvyyn"]
+[ext_resource type="PackedScene" uid="uid://o54semiphm6w" path="res://scenes/play_area.tscn" id="5_mnpl5"]
+[ext_resource type="Shader" path="res://shaders/flash.gdshader" id="8_fljx3"]
+[ext_resource type="PackedScene" uid="uid://mfot3anubaqi" path="res://scenes/ui.tscn" id="8_uoih1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_co07f"]
+shader = ExtResource("2_gdnth")
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/offset_in_pixels = Vector2(3, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tqnd4"]
+shader = ExtResource("3_p13qx")
+shader_parameter/line_color = null
+shader_parameter/line_thickness = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_05eoc"]
+resource_local_to_scene = true
+shader = ExtResource("8_fljx3")
+shader_parameter/flash = false
+shader_parameter/color = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0rnxl"]
+resource_local_to_scene = true
+shader = ExtResource("8_fljx3")
+shader_parameter/flash = false
+shader_parameter/color = Color(1, 1, 1, 1)
+
+[node name="Gamemanager" type="Node" node_paths=PackedStringArray("root", "transition", "camera_rig", "player_health_bar")]
+script = ExtResource("1_2syvq")
+root = NodePath("Shadow/SubViewport/Outline/SubViewport/Root")
+transition = NodePath("Shadow/SubViewport/Outline/SubViewport/Root/UI/FullScreen/TransitionManager")
+camera_rig = NodePath("Shadow/SubViewport/Outline/SubViewport/Root/Camera")
+player_health_bar = NodePath("Shadow/SubViewport/Outline/SubViewport/Root/UI/FullScreen/MarginContainer/PlayerHealthBar")
+play_area = Rect2(0, 0, 460, 300)
+
+[node name="Background" parent="." instance=ExtResource("4_kof1a")]
+
+[node name="Shadow" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_co07f")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Shadow"]
+transparent_bg = true
+handle_input_locally = false
+audio_listener_enable_2d = true
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="Outline" type="SubViewportContainer" parent="Shadow/SubViewport"]
+material = SubResource("ShaderMaterial_tqnd4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Shadow/SubViewport/Outline"]
+transparent_bg = true
+handle_input_locally = false
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
+audio_listener_enable_2d = true
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="Root" type="Node" parent="Shadow/SubViewport/Outline/SubViewport"]
+
+[node name="Camera" parent="Shadow/SubViewport/Outline/SubViewport/Root" instance=ExtResource("5_lvyyn")]
+
+[node name="PlayArea" parent="Shadow/SubViewport/Outline/SubViewport/Root" instance=ExtResource("5_mnpl5")]
+
+[node name="UI" parent="Shadow/SubViewport/Outline/SubViewport/Root" instance=ExtResource("8_uoih1")]
+
+[node name="Flash" parent="Shadow/SubViewport/Outline/SubViewport/Root/UI/FullScreen/MarginContainer/PlayerHealthBar" index="0"]
+material = SubResource("ShaderMaterial_05eoc")
+
+[node name="Flash" parent="Shadow/SubViewport/Outline/SubViewport/Root/UI/FullScreen/MarginContainer2/BossHealthBar" index="0"]
+material = SubResource("ShaderMaterial_0rnxl")
+
+[editable path="Shadow/SubViewport/Outline/SubViewport/Root/PlayArea"]
+[editable path="Shadow/SubViewport/Outline/SubViewport/Root/PlayArea/Character"]
+[editable path="Shadow/SubViewport/Outline/SubViewport/Root/UI"]
